@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <stddef.h> //size_t
+#include <time.h>
+#include <stdbool.h>
 
 size_t GetSize(const char* const message);
 int GetIntValue(const char* const message);
@@ -11,6 +13,8 @@ void RandomFill(int* const array, size_t size);
 void Print(const int* const array, size_t size);
 void BubbleSort(int* const array, size_t size);
 void Swap(int* lha, int* rha);
+bool LinearContains(const int* const array, const size_t size, const int value);
+bool Contains(const int* const array, const size_t size, const int value);
 
 size_t GetMinIndex(const int* const array,
 	const size_t start,
@@ -24,6 +28,9 @@ void SelectionSortAsc(int* const array, size_t size);
 void SelectionSortDesc(int* const array, size_t size);
 
 void InsertionSort(int* const array, size_t size);
+
+void InsertionSortMirror(int* const array, size_t size);
+
 
 int main()
 {
@@ -39,7 +46,7 @@ int main()
 	puts("Отсортированный по убыванию");
 	SelectionSortDesc(array, size);
 	Print(array, size);
-	InsertionSort(array, size);
+	InsertionSortMirror(array, size);
 	puts("Отсортированный по возрастанию");
 	Print(array, size);
 
@@ -89,10 +96,10 @@ int* GetArray(size_t size)
 
 void RandomFill(int* const array, size_t size)
 {
-	srand(NULL);
+	srand(time(NULL));
 	for (size_t i = 0; i < size; ++i)
 	{
-		array[i] = rand();
+		array[i] = rand() % 10;
 	}
 }
 
@@ -108,9 +115,9 @@ void Print(const int* const array, size_t size)
 
 void BubbleSort(int* const array, size_t size)
 {
-	for (size_t i = 0; i < size; ++i)
+	for (size_t i = 0; i < size - 1; ++i)
 	{
-		for (size_t j = i; j < size - 1; ++j)
+		for (size_t j = 0; j < size - 1 - i; ++j)
 		{
 			if (array[j] > array[j + 1])
 			{
@@ -126,6 +133,30 @@ void Swap(int* lha, int* rha)
 	*lha ^= *rha;// XOR
 	*rha ^= *lha;
 	*lha ^= *rha;
+}
+
+bool LinearContains(const int* const array, const size_t size, const int value)
+{
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (array[i] == value)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool Contains(const int* const array, const size_t size, const int value)
+{
+	size_t i = size / 2;
+	if (array[i] < value)
+		return ...;
+	if (array[i] > value)
+		return ...;
+
+	return true;
 }
 
 size_t GetMinIndex(const int* const array,
@@ -193,6 +224,19 @@ void InsertionSort(int* const array, size_t size)
 		{
 			Swap(&array[j], &array[j + 1]);
 			j--;
+		}
+	}
+}
+
+void InsertionSortMirror(int* const array, size_t size)
+{
+	for (size_t i = size - 1; i-->0;)
+	{
+		size_t j = i + 1;
+		while (j <= size - 1 && array[j] < array[j - 1])
+		{
+			Swap(&array[j], &array[j - 1]);
+			j++;
 		}
 	}
 }
