@@ -1,4 +1,4 @@
-#include <stdio.h>
+п»ї#include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -35,19 +35,19 @@ void InsertionSortMirror(int* const array, size_t size);
 int main()
 {
 	setlocale(LC_ALL, "ru-RU");
-	size_t size = GetSize("Введите размера массива");
+	size_t size = GetSize("В¬РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂР° РјР°СЃСЃРёРІР°");
 	int* array = GetArray(size);
 	RandomFill(array, size);
-	puts("Исходный массив");
+	puts("В»СЃС…РѕРґРЅС‹Р№ РјР°СЃСЃРёРІ");
 	Print(array, size);
-	puts("Отсортированный по возрастанию");
+	puts("СњС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРЅС‹Р№ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ");
 	BubbleSort(array, size);
 	Print(array, size);
-	puts("Отсортированный по убыванию");
+	puts("СњС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРЅС‹Р№ РїРѕ СѓР±С‹РІР°РЅРёСЋ");
 	SelectionSortDesc(array, size);
 	Print(array, size);
 	InsertionSortMirror(array, size);
-	puts("Отсортированный по возрастанию");
+	puts("СњС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРЅС‹Р№ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ");
 	Print(array, size);
 
 	return 0;
@@ -59,7 +59,7 @@ size_t GetSize(const char* const message)
 	if (size <= 0)
 	{
 		errno = EDOM;
-		perror("Ошибка: ");
+		perror("СњС€РёР±РєР°: ");
 		abort();
 	}
 
@@ -74,7 +74,7 @@ int GetIntValue(const char* const message)
 	if (result != 1)
 	{
 		errno = EIO;
-		perror("Ошибка: ");
+		perror("СњС€РёР±РєР°: ");
 		abort();
 	}
 
@@ -87,7 +87,7 @@ int* GetArray(size_t size)
 	if (NULL == array)
 	{
 		errno = ENOMEM;
-		perror("Ошибка: ");
+		perror("СњС€РёР±РєР°: ");
 		abort();
 	}
 
