@@ -13,8 +13,15 @@ void RandomFill(int* const array, size_t size);
 void Print(const int* const array, size_t size);
 void BubbleSort(int* const array, size_t size);
 void Swap(int* lha, int* rha);
-bool LinearContains(const int* const array, const size_t size, const int value);
-bool Contains(const int* const array, const size_t size, const int value);
+
+bool LinearSearch(const int* const array,
+				  const int value,
+				  const size_t size);
+
+bool BinarySearch(const int* const array,
+				  const int value,
+				  const size_t min,
+				  const size_t max);
 
 size_t GetMinIndex(const int* const array,
 	const size_t start,
@@ -35,20 +42,41 @@ void InsertionSortMirror(int* const array, size_t size);
 int main()
 {
 	setlocale(LC_ALL, "ru-RU");
-	size_t size = GetSize("¬ведите размера массива");
+	size_t size = GetSize("Введите размера массива");
 	int* array = GetArray(size);
 	RandomFill(array, size);
-	puts("»сходный массив");
+	puts("Исходный массив");
 	Print(array, size);
-	puts("ќтсортированный по возрастанию");
+	puts("Отсортированный по возрастанию");
 	BubbleSort(array, size);
 	Print(array, size);
-	puts("ќтсортированный по убыванию");
+	puts("Отсортированный по убыванию");
 	SelectionSortDesc(array, size);
 	Print(array, size);
 	InsertionSortMirror(array, size);
-	puts("ќтсортированный по возрастанию");
+	puts("Отсортированный по возрастанию");
 	Print(array, size);
+
+	int value = GetIntValue("Введите число для поиска");
+	puts("Поиск линейный");
+	if (LinearSearch(array, value, size))
+	{
+		puts("Нашли");
+	}
+	else
+	{
+		puts("Не нашли");
+	}
+
+	puts("Поиск бинарный");
+	if (BinarySearch(array, value, 0, size))
+	{
+		puts("Нашли");
+	}
+	else
+	{
+		puts("Не нашли");
+	}
 
 	return 0;
 }
@@ -59,7 +87,7 @@ size_t GetSize(const char* const message)
 	if (size <= 0)
 	{
 		errno = EDOM;
-		perror("ќшибка: ");
+		perror("Ошибка: ");
 		abort();
 	}
 
@@ -74,7 +102,7 @@ int GetIntValue(const char* const message)
 	if (result != 1)
 	{
 		errno = EIO;
-		perror("ќшибка: ");
+		perror("Ошибка: ");
 		abort();
 	}
 
@@ -87,7 +115,7 @@ int* GetArray(size_t size)
 	if (NULL == array)
 	{
 		errno = ENOMEM;
-		perror("ќшибка: ");
+		perror("Ошибка: ");
 		abort();
 	}
 
@@ -99,7 +127,7 @@ void RandomFill(int* const array, size_t size)
 	srand(time(NULL));
 	for (size_t i = 0; i < size; ++i)
 	{
-		array[i] = rand() % 10;
+		array[i] = rand() % 100;
 	}
 }
 
@@ -127,7 +155,6 @@ void BubbleSort(int* const array, size_t size)
 	}
 }
 
-
 void Swap(int* lha, int* rha)
 {
 	*lha ^= *rha;// XOR
@@ -135,10 +162,13 @@ void Swap(int* lha, int* rha)
 	*lha ^= *rha;
 }
 
-bool LinearContains(const int* const array, const size_t size, const int value)
+bool LinearSearch(const int* const array,
+	const int value,
+	const size_t size)
 {
-	for (size_t i = 0; i < size; ++i)
+	for (size_t i = 0; i < size; i++)
 	{
+		printf_s("%zu ", i);
 		if (array[i] == value)
 		{
 			return true;
@@ -148,16 +178,27 @@ bool LinearContains(const int* const array, const size_t size, const int value)
 	return false;
 }
 
-bool Contains(const int* const array, const size_t size, const int value)
+bool BinarySearch(const int* const array, const int value, const size_t min, const size_t max)
 {
-	size_t i = size / 2;
-	if (array[i] < value)
-		return ...;
-	if (array[i] > value)
-		return ...;
+	if (max < min)
+	{
+		return false;
+	}
+	size_t middle = (max + min) / 2;
+	printf_s("%zu ", middle);
+	if (value < array[middle])
+	{
+		BinarySearch(array, value, min, middle - 1);
+	}
+
+	if (value > array[middle])
+	{
+		BinarySearch(array, value, middle + 1, max);
+	}
 
 	return true;
 }
+
 
 size_t GetMinIndex(const int* const array,
 	const size_t start,
@@ -230,7 +271,7 @@ void InsertionSort(int* const array, size_t size)
 
 void InsertionSortMirror(int* const array, size_t size)
 {
-	for (size_t i = size - 1; i-->0;)
+	for (size_t i = size - 1; i-- > 0;)
 	{
 		size_t j = i + 1;
 		while (j <= size - 1 && array[j] < array[j - 1])
